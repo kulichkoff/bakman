@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, path::Path};
 
 use clap::Parser;
 
@@ -21,10 +21,21 @@ impl CommandExecutor for BackupCommand {
         };
 
         let today_str = utils::generate_date_string_today();
-        let out_path = format!("{}{}.bak", today_str, &filename);
+
+        let out_path = match &self.out {
+            Some(out) => {
+                let path = Path::new(out);
+                fs::create_dir_all(path).expect("failed"); // TODO
+                let filename = format!("{}{}.bak", today_str, &filename);
+                let path = path.join(filename);
+                path.to_string_lossy().to_string()
+            },
+            None => format!("{}{}.bak", today_str, &filename),
+        };
+
         match fs::copy(&self.path, out_path) {
             Ok(_) => todo!(),
-            Err(_) => todo!(),
+            Err(e) => eprintln!("{}", e),
         };
     }
 }
