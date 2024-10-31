@@ -11,6 +11,13 @@ pub fn generate_date_string_today() -> String {
     today.format("%Y%m%d").to_string()
 }
 
+pub fn exclude_date_substr(name: &str) -> &str {
+    let result = &name[8..];
+    let v: Vec<&str> = result.split(".bak").collect();
+    let result = v[0];
+    result
+}
+
 pub fn get_filename(path: &str) -> Result<String, ()> {
     let filepath = Path::new(path);
     if filepath.is_dir() {
