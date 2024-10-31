@@ -1,5 +1,6 @@
 pub mod commands;
 pub mod model;
+pub mod utils;
 
 use commands::CommandExecutor;
 use model::{Cli, Command};
