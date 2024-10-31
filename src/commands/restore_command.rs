@@ -11,7 +11,7 @@ pub struct RestoreCommand {
 }
 
 impl CommandExecutor for RestoreCommand {
-    fn execute() {
+    fn execute(&self) {
         todo!()
     }
 }

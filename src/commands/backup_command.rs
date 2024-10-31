@@ -11,7 +11,7 @@ pub struct BackupCommand {
 }
 
 impl CommandExecutor for BackupCommand {
-    fn execute() {
+    fn execute(&self) {
         todo!()
     }
 }
