@@ -1,3 +1,10 @@
+use clap::Parser;
+
+use bakman::model::Cli;
+use bakman::run;
+
 fn main() {
-    println!("Hello, world!");
+    let cli = Cli::parse();
+
+    run(&cli);
 }
