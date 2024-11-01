@@ -2,6 +2,9 @@
 name = "bakman"
 version = "0.1.0"
 edition = "2021"
+authors = ["Daniel Kulichkov <danchick03@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/kulichkoff/bakman"
 
 [dependencies]
 chrono = "0.4.38"
