@@ -47,6 +47,23 @@ impl CommandExecutor for BackupCommand {
 }
 
 fn backup_file(original: &str, out_dir: &str, add_date: bool) -> Result<(), ()> {
+    let original_file = Path::new(original);
+    if original_file.is_dir() {
+        let dir_name = original_file.file_name().unwrap();
+        let dir_name = dir_name.to_str().unwrap();
+        let out_dir = Path::new(out_dir).join(dir_name);
+        let out_dir = out_dir.to_str().unwrap();
+        fs::create_dir_all(out_dir).unwrap();
+
+        for entry in fs::read_dir(original_file).unwrap() {
+            let entry = entry.unwrap();
+            let entry_path = entry.path();
+            let entry_path = entry_path.to_str().unwrap();
+            backup_file(entry_path, out_dir, false).unwrap();
+        }
+
+        return Ok(());
+    }
     let mut filename = match utils::get_filename(original) {
         Ok(name) => name,
         Err(_) => return Err(()),
