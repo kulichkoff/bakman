@@ -19,7 +19,7 @@ impl CommandExecutor for BackupCommand {
         let out_dir = match &self.out {
             Some(path_str) => {
                 let path = Path::new(path_str);
-                fs::create_dir_all(path).expect("failed"); // TODO
+                fs::create_dir_all(path).map_err(errors::Error::from)?;
                 path.to_str().unwrap()
             }
             None => "",
@@ -33,7 +33,7 @@ impl CommandExecutor for BackupCommand {
             let dir_name = format!("{}{}.bak.d", today_str, dir_name);
             let out_dir = Path::new(out_dir).join(dir_name);
             let out_dir = out_dir.to_str().unwrap();
-            fs::create_dir_all(out_dir).unwrap();
+            fs::create_dir_all(out_dir).map_err(errors::Error::from)?;
 
             for entry in fs::read_dir(path).unwrap() {
                 let entry = entry.unwrap();
@@ -48,14 +48,14 @@ impl CommandExecutor for BackupCommand {
     }
 }
 
-fn backup_file(original: &str, out_dir: &str, add_date: bool) -> Result<(), ()> {
+fn backup_file(original: &str, out_dir: &str, add_date: bool) -> Result<(), errors::Error> {
     let original_file = Path::new(original);
     if original_file.is_dir() {
         let dir_name = original_file.file_name().unwrap();
         let dir_name = dir_name.to_str().unwrap();
         let out_dir = Path::new(out_dir).join(dir_name);
         let out_dir = out_dir.to_str().unwrap();
-        fs::create_dir_all(out_dir).unwrap();
+        fs::create_dir_all(out_dir).map_err(errors::Error::from)?;
 
         for entry in fs::read_dir(original_file).unwrap() {
             let entry = entry.unwrap();
@@ -66,10 +66,8 @@ fn backup_file(original: &str, out_dir: &str, add_date: bool) -> Result<(), ()> 
 
         return Ok(());
     }
-    let mut filename = match utils::get_filename(original) {
-        Ok(name) => name,
-        Err(_) => return Err(()),
-    };
+
+    let mut filename = utils::get_filename(original).unwrap();
 
     if add_date {
         let today_str = utils::generate_date_string_today();
@@ -78,9 +76,6 @@ fn backup_file(original: &str, out_dir: &str, add_date: bool) -> Result<(), ()> 
 
     let out_path = Path::new(out_dir).join(filename);
 
-    match fs::copy(original, out_path) {
-        Ok(_) => (),
-        Err(e) => eprintln!("{}", e),
-    };
+    fs::copy(original, out_path).map_err(errors::Error::from)?;
     Ok(())
 }
