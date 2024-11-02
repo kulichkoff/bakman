@@ -16,16 +16,10 @@ pub struct RestoreCommand {
 
 impl CommandExecutor for RestoreCommand {
     fn execute(&self) -> Result<(), errors::Error> {
-        let filename = match utils::get_filename(&self.path) {
-            Ok(name) => name,
-            Err(_) => todo!(),
-        };
+        let filename = utils::get_filename(&self.path).unwrap();
 
         let filename_original = utils::exclude_date_substr(&filename);
-        match fs::copy(&self.path, filename_original) {
-            Ok(_) => todo!(),
-            Err(e) => eprintln!("{}", e),
-        }
+        fs::copy(&self.path, filename_original).map_err(errors::Error::from)?;
         Ok(())
     }
 }
