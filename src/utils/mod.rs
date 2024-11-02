@@ -2,7 +2,7 @@ use std::path::Path;
 
 use chrono::{NaiveDate, Utc};
 
-mod errors;
+pub mod errors;
 
 pub fn generate_date_string(date: &NaiveDate) -> String {
     date.format("%Y%m%d").to_string()

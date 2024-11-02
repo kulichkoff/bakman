@@ -4,6 +4,7 @@ use clap::Parser;
 
 use super::CommandExecutor;
 use crate::utils;
+use crate::utils::errors;
 
 #[derive(Parser, Debug)]
 pub struct BackupCommand {
@@ -14,7 +15,7 @@ pub struct BackupCommand {
 }
 
 impl CommandExecutor for BackupCommand {
-    fn execute(&self) {
+    fn execute(&self) -> Result<(), errors::Error> {
         let out_dir = match &self.out {
             Some(path_str) => {
                 let path = Path::new(path_str);
@@ -43,6 +44,7 @@ impl CommandExecutor for BackupCommand {
         } else {
             backup_file(&self.path, out_dir, true).unwrap();
         }
+        Ok(())
     }
 }
 

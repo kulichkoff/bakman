@@ -4,6 +4,7 @@ use clap::Parser;
 
 use super::CommandExecutor;
 use crate::utils;
+use crate::utils::errors;
 
 #[derive(Parser, Debug)]
 pub struct RestoreCommand {
@@ -14,7 +15,7 @@ pub struct RestoreCommand {
 }
 
 impl CommandExecutor for RestoreCommand {
-    fn execute(&self) {
+    fn execute(&self) -> Result<(), errors::Error> {
         let filename = match utils::get_filename(&self.path) {
             Ok(name) => name,
             Err(_) => todo!(),
@@ -25,5 +26,6 @@ impl CommandExecutor for RestoreCommand {
             Ok(_) => todo!(),
             Err(e) => eprintln!("{}", e),
         }
+        Ok(())
     }
 }
