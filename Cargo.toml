@@ -10,6 +10,8 @@ repository = "https://github.com/kulichkoff/bakman"
 lto = true
 opt-level = "s"
 panic = "abort"
+strip = "debuginfo"
+overflow-checks = false
 
 [dependencies]
 chrono = "0.4.38"
