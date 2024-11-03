@@ -1,3 +1,4 @@
+use std::io::{self, ErrorKind};
 use std::path::Path;
 
 use chrono::{NaiveDate, Utc};
@@ -32,4 +33,17 @@ pub fn get_filename(path: &str) -> Result<String, ()> {
     };
 
     Ok(filename)
+}
+
+pub fn try_exists(path: &Path) -> Result<(), errors::Error> {
+    let exists = path.try_exists().map_err(errors::Error::from)?;
+
+    if !exists {
+        return Err(errors::Error::IoError(io::Error::new(
+            ErrorKind::NotFound,
+            "File does not exist",
+        )));
+    }
+
+    Ok(())
 }
