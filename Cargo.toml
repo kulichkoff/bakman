@@ -6,6 +6,11 @@ authors = ["Daniel Kulichkov <danchick03@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/kulichkoff/bakman"
 
+[profile.release]
+lto = true
+opt-level = "s"
+panic = "abort"
+
 [dependencies]
 chrono = "0.4.38"
 clap = { version = "4.5.20", features = ["derive"]}
