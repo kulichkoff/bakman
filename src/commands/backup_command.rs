@@ -16,6 +16,9 @@ pub struct BackupCommand {
 
 impl CommandExecutor for BackupCommand {
     fn execute(&self) -> Result<(), errors::Error> {
+        let path = Path::new(&self.path);
+        utils::try_exists(path)?;
+
         let out_dir = match &self.out {
             Some(path_str) => {
                 let path = Path::new(path_str);
@@ -25,7 +28,6 @@ impl CommandExecutor for BackupCommand {
             None => "",
         };
 
-        let path = Path::new(&self.path);
         if path.is_dir() {
             let dir_name = path.file_name().unwrap();
             let dir_name = dir_name.to_str().unwrap();
