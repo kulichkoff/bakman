@@ -1,6 +1,10 @@
-# bakman
+# Bakman — Bakcup CLI Tool
 
-A simple command-line tool.
+Bakman is a lightweight command-line backup utility designed to streamline the process
+of backing up files and directories. Bakman allows users to quickly create reliable
+backups of their important data, whether it's individual files, entire directories,
+or even custom folder structures. Bakman is perfect for both personal and professional
+use, offering flexibility and efficiency in managing backups directly from the terminal.
 
 ## Table of Contents
 
