@@ -25,7 +25,7 @@ mod tests {
         fs::write(&input_file_path, "Sample content").unwrap();
 
         let date_str = utils::generate_date_string_today();
-        let expected_file_name = format!("{}file.txt.bak", date_str);
+        let expected_file_name = format!("{}_file.txt.bak", date_str);
         let expected_file_path = Path::new(&expected_file_name);
 
         let output = Command::new("cargo")
@@ -50,7 +50,7 @@ mod tests {
 
         let date_str = utils::generate_date_string_today();
         let expected_dir_name = format!(
-            "{}{}.bak.d",
+            "{}_{}.bak.d",
             date_str,
             dir_name.to_string_lossy().to_string()
         );
@@ -84,7 +84,7 @@ mod tests {
 
         let date_str = utils::generate_date_string_today();
         let expected_dir_name = format!(
-            "{}{}.bak.d",
+            "{}_{}.bak.d",
             date_str,
             dir_name.to_string_lossy().to_string()
         );
